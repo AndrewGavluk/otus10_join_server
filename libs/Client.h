@@ -1,5 +1,6 @@
 #include <cstdlib>
 
+#include <algorithm>
 #include <boost/asio.hpp>
 
 #include "joinServer.h"

@@ -15,8 +15,14 @@ void ClientSession::handle_read()
 {
     auto interpreter = [this](const boost::system::error_code& ec, 
                             std::size_t len){
+        (void)(len);
         if (!ec){
-            m_assync.pushBack(m_buf.data(), len);
+            std::vector<std::string> lines;
+            boost::split(lines, std::string{m_buf.data()}, [](char c){return c == '\n';});
+            
+            std::for_each(lines.begin(), lines.end(), 
+                [this](std::string&  iter){m_assync.pushBack(iter);}) ;
+                
             handle_read();
         }
         else{
