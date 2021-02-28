@@ -2,15 +2,14 @@
 
 #include <boost/asio.hpp>
 
-#include "asyncLib.h"
-
+#include "joinServer.h"
 
 using namespace boost::asio;
 
 
 class ClientSession : public std::enable_shared_from_this<ClientSession> {
     public:
-        explicit ClientSession(assyncLib&, ip::tcp::socket);
+        explicit ClientSession(JoinServer&, ip::tcp::socket);
         ~ClientSession() = default;
         void start();
     
@@ -18,7 +17,7 @@ class ClientSession : public std::enable_shared_from_this<ClientSession> {
         void handle_read();
 
         static constexpr size_t buf_len = 1024;
-        assyncLib&                  m_assync;
+        JoinServer&                 m_assync;
         std::array<char, buf_len>   m_buf;
         ip::tcp::socket             m_sock;
         uint64_t                    m_handle{};

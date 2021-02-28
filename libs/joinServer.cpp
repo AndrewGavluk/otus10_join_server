@@ -18,7 +18,7 @@ void JoinServer::process()
         std::cout << stringToProcess << std::endl;
 }
 
-void JoinServer::pushBack(std::string& str)
+void JoinServer::pushBack(const char* buf, size_t& size)
 {
-    m_queue.push(str);
+    m_queue.push(std::string{buf, size});
 }

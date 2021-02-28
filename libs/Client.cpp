@@ -1,7 +1,7 @@
 
 #include "Client.h"
 
-ClientSession::ClientSession(assyncLib& _assync, ip::tcp::socket sock) : 
+ClientSession::ClientSession(JoinServer& _assync, ip::tcp::socket sock) : 
     m_assync{_assync},  m_sock{std::move(sock)} {}
 
 void ClientSession::start()
@@ -16,8 +16,7 @@ void ClientSession::handle_read()
     auto interpreter = [this](const boost::system::error_code& ec, 
                             std::size_t len){
         if (!ec){
-            (void)(len);
-            m_assync.receive(m_buf.data());
+            m_assync.pushBack(m_buf.data(), len);
             handle_read();
         }
         else{
