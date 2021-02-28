@@ -6,8 +6,8 @@ JoinServer::JoinServer():m_words{4}
     
     m_trigers.emplace(std::make_pair(messType::INSERT,                  "INSERT"));
     m_trigers.emplace(std::make_pair(messType::TRUNCATE,                "TRUNCATE"));
-    m_trigers.emplace(std::make_pair(messType::INTERSECTION,            "INTERSECTION\n"));
-    m_trigers.emplace(std::make_pair(messType::SYMMETRIC_DIFFERENCE,    "SYMMETRIC_DIFFERENCE\n"));
+    m_trigers.emplace(std::make_pair(messType::INTERSECTION,            "INTERSECTION"));
+    m_trigers.emplace(std::make_pair(messType::SYMMETRIC_DIFFERENCE,    "SYMMETRIC_DIFFERENCE"));
 }
 
 JoinServer::~JoinServer()
@@ -59,8 +59,7 @@ void JoinServer::processINSERT(){
 
 
 void JoinServer::processTRUNCATE(){
-    if (m_words[0] != m_trigers[messType::TRUNCATE])
-    {
+    if (m_words[0] != m_trigers[messType::TRUNCATE]){
         processINTERSECTION();
         return;
     };
@@ -71,12 +70,7 @@ void JoinServer::processTRUNCATE(){
         m_tabB.clear();
     else
         std::cerr << "unknown tabName parametr : " << m_words[1] << std::endl;
-
     std::cout << "process TRUNCATE\n"; 
-}
-
-bool compareNoCase( const std::string& s1, const std::string& s2 ) {
-    return strcasecmp( s1.c_str(), s2.c_str() ) <= 0;
 }
 
 void JoinServer::processINTERSECTION(){
@@ -87,17 +81,43 @@ void JoinServer::processINTERSECTION(){
     };
 
     m_results.clear();
-    //std::sort (m_tabA.begin(), m_tabA.end(), compareNoCase);
-
-    std::cout << "process INTERSECTION\n"; 
+    for (auto const&  iA : m_tabA)
+        for (auto const&  jB : m_tabB)
+            if (iA.first == jB.first)
+                m_results.try_emplace(iA.first, 
+                                        std::make_pair(iA.second,jB.second));
+    
+    std::cout << "ID,FirstValue,SecondValue\n";
+    for (auto const&  i : m_results)
+        std::cout << i.first << "," << i.second.first << "," << i.second.second << "\n";
+    std::cout << std::endl;
 }
 
 void JoinServer::processSYMMETRIC_DIFFERENCE(){
     if (m_words[0] != m_trigers[messType::SYMMETRIC_DIFFERENCE]){
-        std::cout << "unknown command : " << m_words[0] << std::endl;
+        if (m_words[0]!="")
+            std::cout << "unknown command : " << m_words[0] << std::endl;
         return;
     };
-    std::cout << "process SYMMETRIC_DIFFERENCE\n"; 
+
+    m_results.clear();
+    for (auto const&  iA : m_tabA){
+        auto found = m_tabB.find(iA.first);
+            if (found == m_tabB.end())
+                m_results.emplace(iA.first, 
+                                        std::make_pair(iA.second,""));
+    }
+    for (auto const&  jB : m_tabB){
+        auto found = m_tabA.find(jB.first);
+            if (found == m_tabA.end())
+                m_results.try_emplace(jB.first, 
+                                        std::make_pair("",jB.second));
+    }
+
+    std::cout << "ID,FirstValue,SecondValue\n";
+    for (auto const&  i : m_results)
+        std::cout << i.first << "," << i.second.first << "," << i.second.second << "\n";
+    std::cout << std::endl;
 }
 
 
