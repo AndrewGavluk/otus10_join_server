@@ -17,7 +17,9 @@ void ClientSession::handle_read()
                             std::size_t len){
         if (!ec){
             std::vector<std::string> lines;
-            boost::split(lines, std::string{m_buf.data(), len}, [](char c){return c == '\n';});
+            std::string str {m_buf.data(), len};
+
+            boost::split(lines, str, [](char c){return c == '\n';});
             
             std::for_each(lines.begin(), lines.end(), 
                 [this](std::string&  iter){m_assync.pushBack(iter);}) ;
