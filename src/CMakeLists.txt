@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.2) 
 
-add_executable(jServer main.cpp)
-set_target_properties(jServer PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQIRED ON)
-target_link_libraries(jServer PRIVATE pthread boost_system clientServer joinServerLib)
+add_executable(join_server main.cpp)
+set_target_properties(join_server PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQIRED ON)
+target_link_libraries(join_server PRIVATE pthread boost_system clientServer joinServerLib)
 
 if(MSVC)
-	target_compile_options(jServer PRIVATE /W4)
+	target_compile_options(join_server PRIVATE /W4)
 else()
-	target_compile_options(jServer PRIVATE -Wall -Wextra -Werror)
+	target_compile_options(join_server PRIVATE -Wall -Wextra -Werror)
 endif()
 
-install(TARGETS jServer RUNTIME DESTINATION bin)
+install(TARGETS join_server RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
