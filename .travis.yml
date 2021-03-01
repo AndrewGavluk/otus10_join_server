@@ -12,10 +12,9 @@ before_script:
 script:
 - cmake .
 - cmake --build .
-- cmake --build . --target test
 - cmake --build . --target package
 deploy:
   provider: script
   skip_cleanup: true
   script:
-  - curl -T joinServer-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uandrewgavluk:$BINTRAY_API_KEY "https://api.bintray.com/content/andrewgavluk/Otus-1/otus_10joinServer/$TRAVIS_BUILD_NUMBER/joinServer-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - curl -T join_server-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uandrewgavluk:$BINTRAY_API_KEY "https://api.bintray.com/content/andrewgavluk/Otus-1/otus10_joinServer/$TRAVIS_BUILD_NUMBER/joinServer-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
