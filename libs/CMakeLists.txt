@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
-add_library(joinServer STATIC joinServer.h joinServer.cpp)
-set_target_properties(joinServer  PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-target_include_directories(joinServer PRIVATE ${CMAKE_BINARY_DIR})
+add_library(joinServerLib STATIC joinServer.h joinServer.cpp)
+set_target_properties(joinServerLib  PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_include_directories(joinServerLib PRIVATE ${CMAKE_BINARY_DIR})
 
 add_library(clientServer STATIC Client.cpp Client.h Server.cpp Server.h)
 set_target_properties(clientServer  PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
