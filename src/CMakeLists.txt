@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2) 
+cmake_minimum_required(VERSION 3.9) 
 
 add_executable(join_server main.cpp)
 set_target_properties(join_server PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQIRED ON)

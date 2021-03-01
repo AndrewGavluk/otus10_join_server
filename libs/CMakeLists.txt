@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.9)
 
 add_library(joinServerLib STATIC joinServer.h joinServer.cpp)
 set_target_properties(joinServerLib  PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
