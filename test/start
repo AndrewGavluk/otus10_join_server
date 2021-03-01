@@ -1,0 +1,9 @@
+#!/bin/bash
+cat test1 | nc localhost 9000 &
+cat test2 | nc localhost 9000 &
+sleep 2
+cat test3 | nc localhost 9000 &
+cat test4 | nc localhost 9000 &
+sleep 2
+cat test5 | nc localhost 9000 &
+cat test6 | nc localhost 9000 &
